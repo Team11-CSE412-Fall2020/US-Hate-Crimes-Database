@@ -83,6 +83,28 @@ body {
     border-color: rgb(222, 226, 237);
 }
 
+.view-controls {
+    margin-top: auto;
+    margin-bottom: auto;
+    display: inline-block;
+    height: 30px;
+    
+    background-color: rgb(222, 226, 237);
+    border-style: solid;
+    border-radius: 5px;
+    border-color: rgb(222, 226, 237);
+}
+
+.view-button {
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-right: 5px;
+    height: 32px;
+
+    background-color: transparent;
+    border-color: transparent;
+}
+
 .main-window {
     border-style: solid;
     border-radius: 20px;
