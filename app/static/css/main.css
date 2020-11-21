@@ -65,6 +65,22 @@ body {
 .control-bar {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
+}
+
+.control-button {
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-right: 5px;
+    height: 32px;
+
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: bold;
+
+    background-color: transparent;
+    border-style: solid;
+    border-radius: 5px;
+    border-color: rgb(222, 226, 237);
 }
 
 .main-window {
