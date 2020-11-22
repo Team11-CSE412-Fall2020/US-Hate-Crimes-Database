@@ -107,28 +107,33 @@ with open("./hate_crime.csv", 'r') as csv_file:
     conn = psycopg2.connect(dbname="412db", user="postgres", password="password", port=8888)
 
     cur = conn.cursor()
-    # tableCreate(conn)
+    tableCreate(conn)
     insertquery = "INSERT INTO {} ({}) VALUES ({});"
 
     for ind, row in enumerate(csv_reader):
         if ind % 10000 == 0:
             print("{} rows inserted".format(ind))
-        locationKey = (row["REGION_NAME"].strip(), row["STATE_NAME"].strip(), row["DIVISION_NAME"].strip(), row["POPULATION_GROUP_DESC"].strip())
+        locationKey = (row["REGION_NAME"].strip(), row["STATE_NAME"].strip(), row["DIVISION_NAME"].strip())
         if not locationKey in locationDict:
             locationDict[locationKey] = locationInd
+            if(locationDict[locationKey] == 82 or locationDict[locationKey] == 85):
+                print(locationInd, locationKey)
             locationInd += 1
             locInsert = insertquery.format("locations", "location_id, region, state_name, division, citysizerange", "{}, $${}$$, $${}$$, $${}$$, $${}$$".format(locationDict[locationKey], row["REGION_NAME"], row["STATE_NAME"], row["DIVISION_NAME"], row["POPULATION_GROUP_DESC"]))
             # print(locInsert)
             cur.execute(locInsert)
 
-        agencyKey = (row["PUB_AGENCY_NAME"].strip(), row["AGENCY_TYPE_NAME"].strip())
+        agencyKey = (row["ORI"].strip(), row["PUB_AGENCY_NAME"].strip(), row["AGENCY_TYPE_NAME"].strip())
         if not agencyKey in agencyDict:
             agencyDict[agencyKey] = agencyInd
             agencyInd += 1
             agencyInsert = insertquery.format("agency", "agency_id, agency_name, agency_type", "{}, $${}$$, $${}$$".format(agencyDict[agencyKey], row["PUB_AGENCY_NAME"], row["AGENCY_TYPE_NAME"]))
             cur.execute(agencyInsert)
             cur.execute(insertquery.format("based_in", "agency_id, location_id", "{}, {}".format(agencyDict[agencyKey], locationDict[locationKey])))
-
+            
+        if ind == 7357:
+            print(agencyKey, locationKey)
+            print(agencyDict[agencyKey], locationDict[locationKey])
 
         incInsert = insertquery.format("incident", "incident_id, incident_year, incident_date, number_of_offenses, reported_by, occurred_in", "{}, {}, $${}$$, $${}$$, {}, {}".format(ind, row["DATA_YEAR"], row["INCIDENT_DATE"], row["MULTIPLE_OFFENSE"], agencyDict[agencyKey], locationDict[locationKey]))
         cur.execute(incInsert)
