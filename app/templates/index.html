@@ -22,21 +22,35 @@
     </div>
     <hr class="seperator">
     <div class="control-bar">
-        <h3>All Crimes <span style="color: rgb(165, 169, 182);;">(10000)</span> </h3>
-        <div style="margin-top:auto; margin-bottom: auto;">
-            <button class="control-button" >Compare</button>
-            <button class="control-button" >Filter</button>
-            <button class="control-button" >🔍</button>
+        <h3>All Crimes <span style="color: rgb(165, 169, 182);">{{Props.rowCount}}</span> </h3>
+
+        <div style="margin-top:auto; margin-bottom: auto; display:flex; flex-direction: row;">
+            <form method="POST" action="/filter">
+                <button class="control-button">Filter</button>
+            </form>
+
             <div class="view-controls">
-                <label style="margin-left: 10px; font-weight: bold;">Views: </label>
-                <button class="view-button">📊</button>
-                <button class="view-button">📃</button>
+                <label style="margin-top: auto; margin-bottom: auto; margin-left: 10px; font-weight: bold;">Views: </label>
+
+                <form class="view-button" method="POST" action="/graph">
+                    <button class="view-button">📊</button>
+                </form>
+
+                <form method="POST" action="/table">
+                    <button class="view-button">📃</button>
+                </form>
             </div> 
         </div>
     </div>
+
     <div class="main-window">
-        
+        {% if Props.displayType == "table"%}
+            <h1>TABLE VIEW</h1>
+        {% elif Props.displayType == "graph"%}
+           <h1>GRAPH VIEW</h1>
+        {% endif %}
     </div>
 </div>
+
 
 {% endblock %}

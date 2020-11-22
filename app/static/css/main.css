@@ -86,7 +86,8 @@ body {
 .view-controls {
     margin-top: auto;
     margin-bottom: auto;
-    display: inline-block;
+    display: flex;
+    flex-direction: row;
     height: 30px;
     
     background-color: rgb(222, 226, 237);
@@ -103,6 +104,8 @@ body {
 
     background-color: transparent;
     border-color: transparent;
+
+    font-size: large;
 }
 
 .main-window {
