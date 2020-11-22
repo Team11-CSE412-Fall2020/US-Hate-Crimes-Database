@@ -127,6 +127,8 @@ with open("./hate_crime.csv", 'r') as csv_file:
             agencyInd += 1
             agencyInsert = insertquery.format("agency", "agency_id, agency_name, agency_type", "{}, $${}$$, $${}$$".format(agencyDict[agencyKey], row["PUB_AGENCY_NAME"], row["AGENCY_TYPE_NAME"]))
             cur.execute(agencyInsert)
+            cur.execute(insertquery.format("based_in", "agency_id, location_id", "{}, {}".format(agencyDict[agencyKey], locationDict[locationKey])))
+
 
         incInsert = insertquery.format("incident", "incident_id, incident_year, incident_date, number_of_offenses, reported_by, occurred_in", "{}, {}, $${}$$, $${}$$, {}, {}".format(ind, row["DATA_YEAR"], row["INCIDENT_DATE"], row["MULTIPLE_OFFENSE"], agencyDict[agencyKey], locationDict[locationKey]))
         cur.execute(incInsert)
