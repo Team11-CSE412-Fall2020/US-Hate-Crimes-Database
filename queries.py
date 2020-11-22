@@ -17,20 +17,44 @@ bias.bias_id = because_of.bias_id AND
 victim.victim_id = because_of.victim_id AND
 bias.bias_id = motivated_by.bias_id AND
 offender.offender_id = motivated_by.offender_id AND ({})
-;'''.format("agency.agency_name", "locations.state_name = \'Arizona\' AND incident.incident_id < 6000")
+;'''
+
+def remove_duplicates(colnames, qOutput):
+    cNamesNoDup = list(dict.fromkeys(colnames))
+    indices = [colnames.index(name) for name in cNamesNoDup]
+
+    outputNoDup = [tuple(row[ind] for ind in indices) for row in qOutput]
+
+    return (cNamesNoDup, outputNoDup)
+
+def runQuery(str1, str2, conn):
+    cur = conn.cursor()
+
+    cur.execute(basicquery.format(str1, str2))
+
+    colnames = [desc[0] for desc in cur.description]
+    output = cur.fetchall()
+
+    cn, out = remove_duplicates(colnames, output)
+
+    cur.close()
+
+    return (cn, out)
+
 
 if __name__ == "__main__":
     conn = psycopg2.connect(dbname="412db", user="postgres", password="password", port=8888)
-    
-    cur = conn.cursor()
 
-    cur.execute(basicquery)
+    cn, out = runQuery("*", "locations.state_name = $$Arizona$$")
+    
+    print(cn)
+    print(out[:5])
+
+    # print(colnames)
 
     # print(cur.fetchone())
 
     # print(len(cur.fetchall()))
-    print(cur.fetchall())
-
-    cur.close()
+    # print(cur.fetchall())
 
     conn.close()
