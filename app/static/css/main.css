@@ -127,7 +127,7 @@ label {
     padding-right: 5px;
 }
 
-.filter-field {
+.filter-field[type="text"]{
     margin-right: 10px;
     border-color: rgb(222, 226, 237);
     border-radius: 20px;
@@ -135,7 +135,8 @@ label {
 
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     padding-left: 10px;
-    padding-right: 10px
+    padding-right: 10px;
+    font-weight: bold;
 }
 
 .main-window {
@@ -145,4 +146,14 @@ label {
     box-shadow: rgb(162, 177, 198) 0px 5px 8px -6px;
     height: 800px;
     margin-bottom: 64px;
+}
+
+.table-window {
+    margin-left:auto;
+    margin-right: auto;
+    margin-top: 30px;
+    width: 90%;
+    overflow: scroll;
+    height: 90%;
+    margin-bottom: 20px;
 }

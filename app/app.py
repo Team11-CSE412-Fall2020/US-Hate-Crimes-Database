@@ -25,7 +25,8 @@ def filter():
         columns = request.form['columns']
         conditions = request.form['conditions']
         
-        Props['rows'] = runQuery(columns, conditions, Props['conn'])[1:]
+        Props['columns'], Props['rows'] = runQuery(columns, conditions, Props['conn'])
+        Props['rows'] = Props['rows'][0:100]
         Props['rowCount'] = len(Props['rows'])
         
         #TODO: RUN FILTER QUERY HERE ON PROPS
@@ -79,8 +80,8 @@ if __name__ == "__main__":
     Props = {
 
         # SQL query content, tuple containing dictionaries representing the rows
-        'rows' : ((), (),) ,
-        'columns' : "",
+        'rows' : ((), ()) ,
+        'columns' : ("", ""),
         'conditions' : "",
 
         # len(rows), must be recalculated in .py file after a query
@@ -97,3 +98,4 @@ if __name__ == "__main__":
     Props['rowCount'] = len(Props['rows'])
 
     app.run(debug=True)
+    conn.close()

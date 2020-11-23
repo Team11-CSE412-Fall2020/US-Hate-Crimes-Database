@@ -53,11 +53,41 @@
     </div>
 
     <div class="main-window">
-        {% if Props.displayType == "table"%}
-            <h1>TABLE VIEW</h1>
-        {% elif Props.displayType == "graph"%}
-           <h1>GRAPH VIEW</h1>
-        {% endif %}
+
+        <div class = "table-window">
+            {% if Props.displayType == "table"%}
+
+            <h1>Table View</h1>
+            <table>
+                <thead>
+                    {% for column in Props['columns'] %}
+                    <th>{{column}}</th>
+                    {% endfor %}
+                </thead>    
+                <tbody>
+                {% for row in Props['rows'] %}
+                    
+                    <tr>
+                        {% for column in row %}
+                        <td>{{column}}</td>
+                        {% endfor %}
+                    </tr>
+                    
+                {% endfor %}
+                </tbody>
+            </table>
+            
+
+
+
+
+            {% elif Props.displayType == "graph"%}
+
+            <h1>Graph View</h1>
+
+            {% endif %}
+        </div>
+        
     </div>
 </div>
 
