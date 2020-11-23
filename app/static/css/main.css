@@ -143,6 +143,6 @@ label {
     border-radius: 20px;
     border-color: rgb(222, 226, 237);
     box-shadow: rgb(162, 177, 198) 0px 5px 8px -6px;
-    height: 800px;
+    height: auto;
     margin-bottom: 64px;
 }

@@ -9,6 +9,7 @@ from matplotlib.figure import Figure
 import matplotlib.pyplot as plt
 import random
 import psycopg2
+from itertools import groupby
 
 
 app = Flask(__name__)
@@ -59,14 +60,41 @@ def graph():
 
     return render_template("index.html", Props = Props)
 
-@app.route('/plot.png')
+@app.route('/state_plot.png')
 def plot_png():
+    cur = conn.cursor()
+    cur.execute('''SELECT locations.state_name FROM incident, locations, agency, based_in,
+    offense, types_of, offender, committed_by, victim, committed_against,
+    bias, because_of, motivated_by WHERE incident.occurred_in = locations.location_id AND 
+    incident.reported_by = agency.agency_id AND
+    locations.location_id = based_in.location_id AND
+    agency.agency_id = based_in.agency_id AND
+    incident.incident_id = types_of.incident_id AND
+    offense.offense_id = types_of.offense_id AND
+    committed_by.incident_id = incident.incident_id AND
+    committed_by.offender_id = offender.offender_id AND
+    committed_against.incident_id = incident.incident_id AND
+    committed_against.victim_id = victim.victim_id AND
+    bias.bias_id = because_of.bias_id AND
+    victim.victim_id = because_of.victim_id AND
+    bias.bias_id = motivated_by.bias_id AND
+    offender.offender_id = motivated_by.offender_id;''')
+    stateList = cur.fetchall()
+    stateListFlat = []
+    for i in stateList:
+        stateListFlat.append(i[0])
+    stateListFlat.sort()
+    frequency = [len(list(group)) for key, group in groupby(stateListFlat)]
+    stateListFlat = list(dict.fromkeys(stateListFlat))
     fig = Figure()
+    fig.set_size_inches(11, 8)
     axis = fig.add_subplot(1, 1, 1)
-    x_points = range(50)
-    axis.plot(x_points, [random.randint(1, 30) for x in x_points])
-    axis.set_title('random graph')
-    axis.set_ylabel('integers')
+    axis.bar(stateListFlat, frequency, color=(0.8, 0.0, 0.0, 0.6))
+    axis.set_title('Number of Incidents per State')
+    axis.set_ylabel('Frequency')
+    plt.setp(axis.xaxis.get_majorticklabels(), rotation=90)
+    fig.tight_layout();
+    axis.figure.tight_layout()
     output = io.BytesIO()
     FigureCanvas(fig).print_png(output)
     return Response(output.getvalue(), mimetype="image/png")
@@ -75,9 +103,9 @@ def plot_png():
 def plot_png2():
     fig = Figure()
     axis = fig.add_subplot(1, 1, 1)
-    xs = range(100)
-    ys = [random.randint(1, 50) for x in xs]
-    axis.plot(xs, ys)
+    xs = ["swag", "ok"]
+    ys = [4, 6]
+    axis.bar(xs, ys)
     axis.set_title('graph 2')
     axis.set_ylabel('numbers')
     axis.set_xlabel('time')
@@ -101,7 +129,7 @@ def dated_url_for(endpoint, **values):
 
 
 if __name__ == "__main__":
-    conn = psycopg2.connect(dbname="412project", user="postgres", password="password")
+    conn = psycopg2.connect(dbname="412project", user="postgres", password="password", port=5432)
 
     # Main data structure to pass around values between page reloads
     Props = {
