@@ -1,4 +1,4 @@
-import psycopg2;
+import psycopg2
 
 basicquery = '''SELECT {} FROM incident, locations, agency, based_in,
 offense, types_of, offender, committed_by, victim, committed_against,
@@ -16,7 +16,7 @@ committed_against.victim_id = victim.victim_id AND
 bias.bias_id = because_of.bias_id AND
 victim.victim_id = because_of.victim_id AND
 bias.bias_id = motivated_by.bias_id AND
-offender.offender_id = motivated_by.offender_id AND ({})
+offender.offender_id = motivated_by.offender_id {}
 ;'''
 
 def remove_duplicates(colnames, qOutput):
@@ -29,6 +29,12 @@ def remove_duplicates(colnames, qOutput):
 
 def runQuery(str1, str2, conn):
     cur = conn.cursor()
+
+    if str1 == "":
+        str1 = "*"
+
+    if not str2 == "":
+        str2 = "AND {}".format(str2)
 
     cur.execute(basicquery.format(str1, str2))
 
@@ -48,6 +54,7 @@ if __name__ == "__main__":
     cn, out = runQuery("*", "incident.incident_id = incident.incident_id", conn)
     
     print(cn)
+    print(type(out[0][3]))
     print(len(out))
 
     # print(colnames)
