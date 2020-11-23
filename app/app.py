@@ -1,16 +1,24 @@
 
 from flask import Flask, render_template, url_for, request, Response
 from flask_sqlalchemy import SQLAlchemy
+from queries import runQuery
 import os
+<<<<<<< HEAD
 import io
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
 import matplotlib.pyplot as plt
 import random
+=======
+import psycopg2
+
+>>>>>>> 1ac190671aa1a2c335161372a1647ce23ff4d3fc
 
 app = Flask(__name__)
 # app.config['SQLALCHEMY_DATABASE_URI'] = ''
 # db = SQLAlchemy(app)
+
+# def pass(database_name, user, password, port):
 
 
 @app.route('/')
@@ -22,7 +30,14 @@ def index():
 def filter():
     if request.method == "POST":
 
+        columns = request.form['columns']
+        conditions = request.form['conditions']
+        
+        Props['rows'] = runQuery(columns, conditions, Props['conn'])[1:]
+        Props['rowCount'] = len(Props['rows'])
+        
         #TODO: RUN FILTER QUERY HERE ON PROPS
+        #
         #Props['rows'] = newTuple
 
         return render_template("index.html", Props = Props)
@@ -89,19 +104,24 @@ def dated_url_for(endpoint, **values):
 
 
 if __name__ == "__main__":
+    conn = psycopg2.connect(dbname="412db", user="postgres", password="barrow22")
 
     # Main data structure to pass around values between page reloads
     Props = {
 
         # SQL query content, tuple containing dictionaries representing the rows
-        'rows' : ({}, {}, {}) ,
+        'rows' : ((), (),) ,
+        'columns' : "",
+        'conditions' : "",
 
         # len(rows), must be recalculated in .py file after a query
         'rowCount' : 0,
 
         'displayType' : "table",
+        'conn' : conn,
     }
 
+    
     # TODO: RUN SQL FIRST QUEREY HERE
     # Props['rows'] = SQLQUERY
 
