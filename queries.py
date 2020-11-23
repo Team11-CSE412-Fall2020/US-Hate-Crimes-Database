@@ -45,10 +45,10 @@ def runQuery(str1, str2, conn):
 if __name__ == "__main__":
     conn = psycopg2.connect(dbname="412db", user="postgres", password="password", port=8888)
 
-    cn, out = runQuery("*", "locations.state_name = $$Arizona$$")
+    cn, out = runQuery("*", "incident.incident_id = incident.incident_id", conn)
     
     print(cn)
-    print(out[:5])
+    print(len(out))
 
     # print(colnames)
 
