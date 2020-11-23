@@ -1,8 +1,12 @@
 
-from flask import Flask, render_template, url_for, request
+from flask import Flask, render_template, url_for, request, Response
 from flask_sqlalchemy import SQLAlchemy
 import os
-
+import io
+from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+from matplotlib.figure import Figure
+import matplotlib.pyplot as plt
+import random
 
 app = Flask(__name__)
 # app.config['SQLALCHEMY_DATABASE_URI'] = ''
@@ -43,8 +47,31 @@ def graph():
 
     return render_template("index.html", Props = Props)
 
+@app.route('/plot.png')
+def plot_png():
+    fig = Figure()
+    axis = fig.add_subplot(1, 1, 1)
+    x_points = range(50)
+    axis.plot(x_points, [random.randint(1, 30) for x in x_points])
+    axis.set_title('random graph')
+    axis.set_ylabel('integers')
+    output = io.BytesIO()
+    FigureCanvas(fig).print_png(output)
+    return Response(output.getvalue(), mimetype="image/png")
 
-
+@app.route('/plot2.png')
+def plot_png2():
+    fig = Figure()
+    axis = fig.add_subplot(1, 1, 1)
+    xs = range(100)
+    ys = [random.randint(1, 50) for x in xs]
+    axis.plot(xs, ys)
+    axis.set_title('graph 2')
+    axis.set_ylabel('numbers')
+    axis.set_xlabel('time')
+    output = io.BytesIO()
+    FigureCanvas(fig).print_png(output)
+    return Response(output.getvalue(), mimetype='image/png')
 
 # Weird hack to get hot reloading working with browser-caching, can mostly ignore
 @app.context_processor
