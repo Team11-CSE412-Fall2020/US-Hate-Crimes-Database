@@ -22,6 +22,7 @@ def index():
 def filter():
     if request.method == "POST":
 
+
         columns = request.form['columns']
         conditions = request.form['conditions']
         
@@ -77,10 +78,10 @@ def table():
     return render_template("index.html", Props = Props)
 
 
-@app.route('/graph', methods=["GET", "POST"])
-def graph():
+@app.route('/stats', methods=["GET", "POST"])
+def stats():
     if request.method == "POST":
-        Props['displayType'] = "graph"
+        Props['displayType'] = "stats"
 
         return render_template("index.html", Props = Props)
 

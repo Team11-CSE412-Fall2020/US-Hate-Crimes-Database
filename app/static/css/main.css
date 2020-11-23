@@ -17,8 +17,30 @@ label {
     margin-bottom: auto;
 }
 
+
 th, td {
+    text-align: left;
     padding-right: 43.2px;
+}
+
+.center-horizontal {
+    margin-right: auto;
+    margin-left: auto;
+}
+.center-vertical {
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.border-theme {
+    border-style: solid;
+    border-color: rgb(222, 226, 237);
+    border-radius: 5px;
+}
+
+.font-theme {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: bold;
 }
 
 .banner {
@@ -120,6 +142,16 @@ th, td {
     font-size: large;
 }
 
+.add-button {
+    border-style: solid;
+    border-color: rgb(222, 226, 237);
+    border-radius: 15px;
+    background-color: transparent;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: bold;
+    
+}
+
 .filter-controls {
     display:flex; 
     flex-direction: row;
@@ -142,6 +174,7 @@ th, td {
     padding-right: 10px;
     font-weight: bold;
 }
+
 
 .main-window {
     border-style: solid;

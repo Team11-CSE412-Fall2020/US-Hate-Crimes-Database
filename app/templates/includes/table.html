@@ -1,0 +1,43 @@
+{% block body %}
+
+<div style="position:sticky; display:flex; flex-direction: row; margin-top:auto; margin-bottom:auto;">
+    <h1 style="margin-right:15px">Table View </h1>
+    
+    <div style="display:flex; flex-direction:row; margin-top:auto;margin-bottom: auto;padding-top:5px;">
+
+        <form method="POST" action="/backward">
+            <button class="table-button">
+                ◀
+            </button>
+        </form>
+        
+        <form method="POST" action="/forward">
+            <button class="table-button">
+                ▶
+            </button>
+        </form>
+    </div>
+</div>
+
+<div style="overflow: scroll; height: 90%; margin-bottom: 20px;">
+    <table>
+        <thead style="position:sticky">
+            {% for column in Props['columns'] %}
+            <th>{{column}}</th>
+            {% endfor %}
+        </thead>    
+        <tbody>
+        {% for row in Props['rows'] %}
+            
+            <tr class="table-row">
+                {% for column in row %}
+                <td>{{column}}</td>
+                {% endfor %}
+            </tr>
+            
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
