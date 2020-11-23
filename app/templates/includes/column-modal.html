@@ -1,20 +1,56 @@
 {% block body %}
 
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="column-modal" tabindex="-1" role="dialog" aria-labelledby="column-modal" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <h5 class="modal-title" id="column-modal">Add Tables and Columns</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body">
-          ...
+        <div class="modal-body" style="height:400px;"">
+          <p>Use 'Ctrl' or 'Shift' to select multiple columns</p>
+          <select name="columns" style="height:90%; width:100%"; multiple>
+            <optgroup label="Agency">
+                <option value="agency_id">Agency ID</option>
+                <option value="agency_name">Agency Name</option>
+                <option value="agency_type">Agency Type</option>
+            </optgroup>
+            <optgroup label="Incident" >
+                <option value="incident_id">Incident ID</option>
+                <option value="incident_year">Incident Year</option>
+                <option value="incident_date">Incident Date</option>
+                <option value="number_of_offenses">Number of Offenses</option>
+                <option value="reported_by">Reported By</option>
+                <option value="occurred_in">Occurred In</option>
+            </optgroup>
+            <optgroup label="Offense">
+                <option value="offense_id">Offense ID</option>
+                <option value="offense_name">Offense Name</option>
+                <option value="offense_id">Offense ID</option>
+            </optgroup>
+            <optgroup label="Offender">
+                <option value="offender_id">Offender ID</option>
+                <option value="race">Race</option>
+                <option value="number_of_offenders">Number of Offenders</option>
+                <option value="numberofbiases">Number of Biases</option>
+            </optgroup>
+            <optgroup label="Victim">
+                <option value="victim_id">Victim ID</option>
+                <option value="number_of_victims">Number of Victims</option>
+                <option value="victim_type">Victim Type</option>
+            </optgroup>
+            <optgroup label="Bias">
+                <option value="bias_id">Bias ID</option>
+                <option value="bias_desc">Bias Desc</option>
+            </optgroup>
+          </select>
+
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+          <button type="button" class="btn btn-primary">Save</button>
         </div>
       </div>
     </div>
