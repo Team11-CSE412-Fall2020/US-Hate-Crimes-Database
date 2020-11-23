@@ -93,7 +93,7 @@ def plot_png():
     axis.set_title('Number of Incidents per State')
     axis.set_ylabel('Frequency')
     plt.setp(axis.xaxis.get_majorticklabels(), rotation=90)
-    fig.tight_layout();
+    fig.tight_layout()
     axis.figure.tight_layout()
     output = io.BytesIO()
     FigureCanvas(fig).print_png(output)
