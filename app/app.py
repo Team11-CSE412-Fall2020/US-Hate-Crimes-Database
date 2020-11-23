@@ -6,13 +6,11 @@ import os
 import psycopg2
 
 
-
 app = Flask(__name__)
 # app.config['SQLALCHEMY_DATABASE_URI'] = ''
 # db = SQLAlchemy(app)
 
 # def pass(database_name, user, password, port):
-
 
 
 @app.route('/')
