@@ -34,7 +34,7 @@ def runQuery(str1, str2, conn):
         str1 = "*"
 
     if not str2 == "":
-        str2 = "AND ({})".format(str2)
+        str2 = "AND {}".format(str2)
 
     cur.execute(basicquery.format(str1, str2))
 
