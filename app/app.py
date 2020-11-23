@@ -3,16 +3,13 @@ from flask import Flask, render_template, url_for, request, Response
 from flask_sqlalchemy import SQLAlchemy
 from queries import runQuery
 import os
-<<<<<<< HEAD
 import io
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
 import matplotlib.pyplot as plt
 import random
-=======
 import psycopg2
 
->>>>>>> 1ac190671aa1a2c335161372a1647ce23ff4d3fc
 
 app = Flask(__name__)
 # app.config['SQLALCHEMY_DATABASE_URI'] = ''
@@ -104,7 +101,7 @@ def dated_url_for(endpoint, **values):
 
 
 if __name__ == "__main__":
-    conn = psycopg2.connect(dbname="412db", user="postgres", password="barrow22")
+    conn = psycopg2.connect(dbname="412project", user="postgres", password="password")
 
     # Main data structure to pass around values between page reloads
     Props = {
