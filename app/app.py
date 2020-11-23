@@ -25,13 +25,44 @@ def filter():
         columns = request.form['columns']
         conditions = request.form['conditions']
         
-        Props['columns'], Props['rows'] = runQuery(columns, conditions, Props['conn'])
-        Props['rows'] = Props['rows'][0:100]
-        Props['rowCount'] = len(Props['rows'])
+        Props['columns'], Props['allRows'] = runQuery(columns, conditions, Props['conn'])
+        Props['rowCount'] = len(Props['allRows'])
+
+        Props['rows'] = Props['allRows'][0:100]
+        Props['pageNum'] = 0
         
-        #TODO: RUN FILTER QUERY HERE ON PROPS
-        #
-        #Props['rows'] = newTuple
+
+        return render_template("index.html", Props = Props)
+
+
+@app.route('/forward', methods=["GET", "POST"])
+def forward():
+    if request.method == "POST":
+
+        #Avoid the -1 indexed page (empty)
+        if Props['pageNum'] == -2:
+            Props['pageNum'] += 2
+        else:
+            Props['pageNum'] += 1
+
+        page = 100*Props['pageNum']
+        Props['rows'] = Props['allRows'][(0+page):(100+page)]
+
+        return render_template("index.html", Props = Props)
+
+
+@app.route('/backward', methods=["GET", "POST"])
+def backward():
+    if request.method == "POST":
+
+        #Avoid the -1 indexed page (empty)
+        if Props['pageNum'] == 0:
+            Props['pageNum'] += -2
+        else:
+            Props['pageNum'] += -1
+        
+        page = 100*Props['pageNum']
+        Props['rows'] = Props['allRows'][(0+page):(100+page)]
 
         return render_template("index.html", Props = Props)
 
@@ -80,12 +111,14 @@ if __name__ == "__main__":
     Props = {
 
         # SQL query content, tuple containing dictionaries representing the rows
-        'rows' : ((), ()) ,
+        'allRows' : ((), ()),
+        'rows' : ((), ()),
         'columns' : ("", ""),
         'conditions' : "",
 
         # len(rows), must be recalculated in .py file after a query
         'rowCount' : 0,
+        'pageNum' : 0,
 
         'displayType' : "table",
         'conn' : conn,
