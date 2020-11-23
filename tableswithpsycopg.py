@@ -104,10 +104,10 @@ def tableCreate(conn):
 with open("./hate_crime.csv", 'r') as csv_file:
     csv_reader = csv.DictReader(csv_file)
 
-    conn = psycopg2.connect(dbname="412db", user="postgres", password="password", port=8888)
+    conn = psycopg2.connect(dbname="412db", user="postgres", password="barrow22")
 
     cur = conn.cursor()
-    tableCreate(conn)
+    # tableCreate(conn)
     insertquery = "INSERT INTO {} ({}) VALUES ({});"
 
     for ind, row in enumerate(csv_reader):
@@ -151,7 +151,7 @@ with open("./hate_crime.csv", 'r') as csv_file:
         offInsert = insertquery.format("offender", "offender_id, race, number_of_offenders, numberofbiases", "{}, $${}$$, {}, $${}$$".format(ind, row["OFFENDER_RACE"], row["TOTAL_OFFENDER_COUNT"], row["MULTIPLE_BIAS"]))
         cur.execute(offInsert)
 
-        if (row["TOTAL_INDIVIDUAL_VICTIMS"] is ""):
+        if (row["TOTAL_INDIVIDUAL_VICTIMS"] == ""):
             vicInsert = insertquery.format("victim", "victim_id, number_of_victims, victim_type", "{}, {}, $${}$$".format(ind, 0, row["VICTIM_TYPES"]))
         else:
             vicInsert = insertquery.format("victim", "victim_id, number_of_victims, victim_type", "{}, {}, $${}$$".format(ind, row["TOTAL_INDIVIDUAL_VICTIMS"], row["VICTIM_TYPES"]))
