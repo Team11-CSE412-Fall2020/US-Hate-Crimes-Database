@@ -26,6 +26,7 @@ def filter():
         conditions = request.form['conditions']
         
         Props['rows'] = runQuery(columns, conditions, Props['conn'])[1:]
+        Props['rowCount'] = len(Props['rows'])
         
         #TODO: RUN FILTER QUERY HERE ON PROPS
         #
