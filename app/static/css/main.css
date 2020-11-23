@@ -17,6 +17,10 @@ label {
     margin-bottom: auto;
 }
 
+h3 {
+    font-size: x-large;
+}
+
 
 th, td {
     text-align: left;
@@ -46,16 +50,20 @@ th, td {
 .banner {
     width: 100%;
     height: 44px;
-    line-height: 1em; 
     box-shadow: rgb(162, 177, 198) 0px 5px 8px -6px;
     position: sticky;
+    
 }
 
 .banner-content {
     width: 85%;
+    height: 100%;
     max-width: 1200px;
     margin-left: auto;
     margin-right: auto;
+    padding-top: 10px;
+    padding-bottom: auto;
+    font-size: large;
 }
 
 .content {
@@ -99,6 +107,8 @@ th, td {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    padding-top: 10px;
+    padding-bottom: 10px;
     width: 100%;
 }
 
@@ -143,6 +153,7 @@ th, td {
 }
 
 .add-button {
+    margin-right: 5px;
     border-style: solid;
     border-color: rgb(222, 226, 237);
     border-radius: 15px;
@@ -164,6 +175,8 @@ th, td {
 }
 
 .filter-field[type="text"]{
+    width: 30%;
+
     margin-right: 10px;
     border-color: rgb(222, 226, 237);
     border-radius: 20px;
