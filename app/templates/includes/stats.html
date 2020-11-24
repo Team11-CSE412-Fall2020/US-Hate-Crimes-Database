@@ -1,4 +1,45 @@
-{% begin block %}
 
+{% block body %}
+<div style="height:90px">
+    <canvas id="myChart" width="1000" height="800"></canvas>
+    <script>
+        const repeatedArray = [].concat(...Array(20).fill([
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)',
+                        'rgba(255, 99, 132, 0.2)',
+                    ],));
+        var ctx = document.getElementById('myChart');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: [{% for item in Statistics.offenseNames %}
+                            "{{item[0]}}",
+                         {% endfor %}],
+                datasets: [{
+                    label: '# of Incidents',
+                    data: [{% for item in Statistics.offenseNames %}
+                            "{{item[1]}}",
+                           {% endfor %}],
+                    borderColor: repeatedArray,
+                    backgroundColor: repeatedArray,
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+    </script>
+</div>
 
 {% endblock %}

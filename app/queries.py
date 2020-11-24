@@ -47,6 +47,23 @@ def runQuery(str1, str2, conn):
 
     return (cn, out)
 
+def runQuery2(str1, str2, conn):
+    cur = conn.cursor()
+
+    if str1 == "":
+        str1 = "*"
+
+    cur.execute(basicquery.format(str1, str2))
+
+    colnames = [desc[0] for desc in cur.description]
+    output = cur.fetchall()
+
+    cn, out = remove_duplicates(colnames, output)
+
+    cur.close()
+
+    return (cn, out)
+
 
 if __name__ == "__main__":
     conn = psycopg2.connect(dbname="412db", user="postgres", password="password", port=8888)
@@ -56,6 +73,7 @@ if __name__ == "__main__":
     print(cn)
     print(type(out[0][3]))
     print(len(out))
+
 
     # print(colnames)
 

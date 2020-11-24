@@ -2,6 +2,7 @@
 from flask import Flask, render_template, url_for, request, Response
 from flask_sqlalchemy import SQLAlchemy
 from queries import runQuery
+from queries import runQuery2
 import os
 import io
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
@@ -10,7 +11,8 @@ import matplotlib.pyplot as plt
 import random
 import psycopg2
 from itertools import groupby
-
+import json
+import ast
 
 app = Flask(__name__)
 # app.config['SQLALCHEMY_DATABASE_URI'] = ''
@@ -89,62 +91,9 @@ def stats():
     if request.method == "POST":
         Props['displayType'] = "stats"
 
-        return render_template("index.html", Props = Props)
+        return render_template("index.html", Props = Props, Statistics = Statistics)
 
-    return render_template("index.html", Props = Props)
-
-@app.route('/state_plot.png')
-def plot_png():
-    cur = conn.cursor()
-    cur.execute('''SELECT locations.state_name FROM incident, locations, agency, based_in,
-    offense, types_of, offender, committed_by, victim, committed_against,
-    bias, because_of, motivated_by WHERE incident.occurred_in = locations.location_id AND 
-    incident.reported_by = agency.agency_id AND
-    locations.location_id = based_in.location_id AND
-    agency.agency_id = based_in.agency_id AND
-    incident.incident_id = types_of.incident_id AND
-    offense.offense_id = types_of.offense_id AND
-    committed_by.incident_id = incident.incident_id AND
-    committed_by.offender_id = offender.offender_id AND
-    committed_against.incident_id = incident.incident_id AND
-    committed_against.victim_id = victim.victim_id AND
-    bias.bias_id = because_of.bias_id AND
-    victim.victim_id = because_of.victim_id AND
-    bias.bias_id = motivated_by.bias_id AND
-    offender.offender_id = motivated_by.offender_id;''')
-    stateList = cur.fetchall()
-    stateListFlat = []
-    for i in stateList:
-        stateListFlat.append(i[0])
-    stateListFlat.sort()
-    frequency = [len(list(group)) for key, group in groupby(stateListFlat)]
-    stateListFlat = list(dict.fromkeys(stateListFlat))
-    fig = Figure()
-    fig.set_size_inches(11, 8)
-    axis = fig.add_subplot(1, 1, 1)
-    axis.bar(stateListFlat, frequency, color=(0.8, 0.0, 0.0, 0.6))
-    axis.set_title('Number of Incidents per State')
-    axis.set_ylabel('Frequency')
-    plt.setp(axis.xaxis.get_majorticklabels(), rotation=90)
-    fig.tight_layout()
-    axis.figure.tight_layout()
-    output = io.BytesIO()
-    FigureCanvas(fig).print_png(output)
-    return Response(output.getvalue(), mimetype="image/png")
-
-@app.route('/plot2.png')
-def plot_png2():
-    fig = Figure()
-    axis = fig.add_subplot(1, 1, 1)
-    xs = ["swag", "ok"]
-    ys = [4, 6]
-    axis.bar(xs, ys)
-    axis.set_title('graph 2')
-    axis.set_ylabel('numbers')
-    axis.set_xlabel('time')
-    output = io.BytesIO()
-    FigureCanvas(fig).print_png(output)
-    return Response(output.getvalue(), mimetype='image/png')
+    return render_template("index.html", Props = Props, Statistics = Statistics)
 
 # Weird hack to get hot reloading working with browser-caching, can mostly ignore
 @app.context_processor
@@ -164,6 +113,46 @@ def dated_url_for(endpoint, **values):
 if __name__ == "__main__":
     conn = psycopg2.connect(dbname="412project", user="postgres", password="password", port=5432)
 
+    # Temp = {
+    #     'allRows': ((), ()),
+    #     'rows' : ((), ()),
+    #     'columns' : ("", ""),
+    #     'conn' : conn
+    # }
+
+    # tempColumn = 'offense.offensename, COUNT(*)'
+    # tempCondition = 'GROUP BY offense.offensename'
+    # Temp['columns'], Temp['allRows'] = runQuery2(tempColumn, tempCondition, Temp['conn'])
+    # Temp['rows'] = Temp['allRows'][0:100]
+    # with open('app/static/temp.json', 'a') as f:
+    #     f.write('\n')
+    #     f.write(json.dumps(Temp['rows']))
+
+    # statsList = []
+    # with open('app/static/temp.json', 'r') as f:
+    #     print(type(json.load(f)))
+    # Statistics = {
+    #     'offenseNames' : statsList
+    # }
+
+    statsList = []
+    with open('app/static/statistics.json', 'r') as f:
+        listList = f.readlines()
+        for tempList in listList:
+            newItem = json.loads(tempList)
+            statsList.append(newItem)
+
+    Statistics = {
+        'offenseNames' : statsList[0],
+        'offenderRace' : statsList[1],
+        'victimCount' : statsList[2],
+        'region' : statsList[3],
+        'stateName' : statsList[4],
+        'year' : statsList[5],
+        'popDesc' : statsList[6],
+        'agencyType' : statsList[7]
+    }
+
     # Main data structure to pass around values between page reloads
     Props = {
 
@@ -180,8 +169,8 @@ if __name__ == "__main__":
         'displayType' : "table",
         'conn' : conn,
     }
-
     
+
     # TODO: RUN SQL FIRST QUEREY HERE
     # Props['rows'] = SQLQUERY
 
