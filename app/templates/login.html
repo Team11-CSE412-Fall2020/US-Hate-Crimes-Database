@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+{% endblock %}
+
+
+{% block scripts %}
+  {{super()}}
+{% endblock %}
+
+
+
+{% block content %}
+
+<div class="banner" style="margin-right: auto; margin-left: auto;">
+    <h2 class="banner-content">CSE412 Team-11 | <span style="font-weight: lighter; font-size: medium ;">Login</span> </h1>
+</div>
+
+<div class="content">
+    
+    <div class="double" style="padding-bottom: 30px">
+        <h1 class="double-first">United States Hate Crimes Repository</h1>
+        
+        <p class = "double-second">
+            The U.S. Hate Crimes Repo is a Python application
+            that allows users to view information pertaining 
+            to hate crimes that have taken place in the United States 
+            between the years 1991 and 2018. [TODO: Add links and stuff]
+        </p>
+    </div>
+
+    <div class="center-vertical center-horizontal border-theme" style="width: 50%; padding: 30px; box-shadow: rgb(162, 177, 198) 0px 5px 8px -6px;">
+        <h1 style="margin-bottom: 20px; text-align: center;">Login</h1>
+        <form method="POST" action="/home"> 
+
+            <div class="form-group" style="display:flex; flex-direction: column; align-items: center;">
+                <div style="display:flex; flex-direction: column;">
+                    <label for="dbname" style="margin-bottom: 5px;">Database Name</label>
+                    <input type="text" class="control-button" id="dbname" placeholder="Enter database name" name="db-form"
+                    style="padding-left: 10px; padding-right: 10px; width: 250px;">
+                </div>
+            </div>
+
+            <div class="form-group" style="display:flex; flex-direction: column; align-items: center;">
+                <div style="display:flex; flex-direction: column;">
+                    <label for="user" style="margin-bottom: 5px;">Username</label>
+                    <input type="text" class="control-button" id="user" aria-describedby="userHelp" placeholder="Enter username"
+                    name="username-form"
+                    style="padding-left: 10px; padding-right: 10px; width: 250px;">
+                </div>
+            </div>
+
+            <div class="form-group" style="display:flex; flex-direction: column; align-items: center;">
+                <div style="display:flex; flex-direction: column;">
+                    <label for="password" style="margin-bottom: 5px;">Password</label>
+                    <input type="password" class="control-button" id="password" placeholder="Enter password"
+                    name="password-form"
+                    style="padding-left: 10px; padding-right: 10px; width: 250px;">
+                </div>
+            </div>
+
+            <div class="form-group" style="display:flex; flex-direction: column; align-items: center;">
+                <div style="display:flex; flex-direction: column;">
+                    <label for="port" style="margin-bottom: 5px;">Port</label>
+                    <input type="text" class="control-button" id="port" placeholder="Enter port"
+                    name="port-form"
+                    style="padding-left: 10px; padding-right: 10px; width: 250px;">
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="align-items: center; margin-top: 20px">Submit</button>
+            </div>
+            
+        </form>
+    </div>
+</div>
+
+<script>
+    //poggers
+    $(".control-button").keydown(function(event) {
+        if (event.keyCode == 13) {
+            event.preventDefault();
+        }
+    });
+</script>
+
+{% endblock %}
