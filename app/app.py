@@ -5,14 +5,10 @@ from queries import runQuery
 from queries import runQuery2
 import os
 import io
-from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
-from matplotlib.figure import Figure
-import matplotlib.pyplot as plt
 import random
 import psycopg2
 from itertools import groupby
 import json
-import ast
 
 app = Flask(__name__)
 # app.config['SQLALCHEMY_DATABASE_URI'] = ''
