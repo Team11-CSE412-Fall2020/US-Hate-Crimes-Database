@@ -127,8 +127,7 @@ def dated_url_for(endpoint, **values):
 
 
 if __name__ == "__main__":
-    conn = psycopg2.connect(dbname="412project", user="postgres", password="password", port=5432)
-
+    
     # Temp = {
     #     'allRows': ((), ()),
     #     'rows' : ((), ()),
@@ -191,4 +190,4 @@ if __name__ == "__main__":
     # Props['rows'] = SQLQUERY
     app.run(debug=True)
     Props['conn'].close()
-    #conn.close()
+    # conn.close()

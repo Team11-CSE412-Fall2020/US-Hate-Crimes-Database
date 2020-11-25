@@ -1,45 +1,313 @@
 
 {% block body %}
-<div style="height:90px">
-    <canvas id="myChart" width="1000" height="800"></canvas>
+<html>
+<head>
     <script>
-        const repeatedArray = [].concat(...Array(20).fill([
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)',
-                        'rgba(255, 99, 132, 0.2)',
-                    ],));
-        var ctx = document.getElementById('myChart');
-        var myChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: [{% for item in Statistics.offenseNames %}
-                            "{{item[0]}}",
-                         {% endfor %}],
-                datasets: [{
-                    label: '# of Incidents',
-                    data: [{% for item in Statistics.offenseNames %}
-                            "{{item[1]}}",
-                           {% endfor %}],
-                    borderColor: repeatedArray,
-                    backgroundColor: repeatedArray,
-                    borderWidth: 2
-                }]
-            },
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
+        $(function () {
+            const repeatedArray = [].concat(...Array(20).fill([
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)',
+                            'rgba(255, 99, 132, 0.2)',
+                        ],));
+            var ctx = document.getElementById('offenseNameChart');
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: [{% for item in Statistics.offenseNames %}
+                                "{{item[0]}}",
+                            {% endfor %}],
+                    datasets: [{
+                        label: '# of Incidents',
+                        data: [{% for item in Statistics.offenseNames %}
+                                "{{item[1]}}",
+                            {% endfor %}],
+                        borderColor: repeatedArray,
+                        backgroundColor: repeatedArray,
+                        borderWidth: 2
                     }]
+                },
+                options: {
+                    title: {
+                        display: true,
+                        fontSize: 15,
+                        text: 'Incidents per Offense Name'
+                    },
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
                 }
-            }
+            });
+        
+            var ctx_2 = document.getElementById('offenderRaceChart');
+            var myChart = new Chart(ctx_2, {
+                type: 'bar',
+                data: {
+                    labels: [{% for item in Statistics.offenderRace %}
+                                "{{item[0]}}",
+                            {% endfor %}],
+                    datasets: [{
+                        label: '# of Incidents',
+                        data: [{% for item in Statistics.offenderRace %}
+                                "{{item[1]}}",
+                            {% endfor %}],
+                        borderColor: repeatedArray,
+                        backgroundColor: repeatedArray,
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    title: {
+                        display: true,
+                        fontSize: 15,
+                        text: 'Incidents per Offender Race'
+                    },
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+
+            var ctx_3 = document.getElementById('totalVictimsChart');
+            var myChart = new Chart(ctx_3, {
+                type: 'bar',
+                data: {
+                    labels: [{% for item in Statistics.victimCount %}
+                                "{{item[0]}}",
+                            {% endfor %}],
+                    datasets: [{
+                        label: '# of Incidents',
+                        data: [{% for item in Statistics.victimCount %}
+                                "{{item[1]}}",
+                            {% endfor %}],
+                        borderColor: repeatedArray,
+                        backgroundColor: repeatedArray,
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    title: {
+                        display: true,
+                        fontSize: 15,
+                        text: 'Incidents per Victim Count'
+                    },
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+
+            var ctx_4 = document.getElementById('regionsChart');
+            var myChart = new Chart(ctx_4, {
+                type: 'bar',
+                data: {
+                    labels: [{% for item in Statistics.region %}
+                                "{{item[0]}}",
+                            {% endfor %}],
+                    datasets: [{
+                        label: '# of Incidents',
+                        data: [{% for item in Statistics.region %}
+                                "{{item[1]}}",
+                            {% endfor %}],
+                        borderColor: repeatedArray,
+                        backgroundColor: repeatedArray,
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    title: {
+                        display: true,
+                        fontSize: 15,
+                        text: 'Incidents per Region'
+                    },
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+
+            var ctx_5 = document.getElementById('stateChart');
+            var myChart = new Chart(ctx_5, {
+                type: 'bar',
+                data: {
+                    labels: [{% for item in Statistics.stateName %}
+                                "{{item[0]}}",
+                            {% endfor %}],
+                    datasets: [{
+                        label: '# of Incidents',
+                        data: [{% for item in Statistics.stateName %}
+                                "{{item[1]}}",
+                            {% endfor %}],
+                        borderColor: repeatedArray,
+                        backgroundColor: repeatedArray,
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    title: {
+                        display: true,
+                        fontSize: 15,
+                        text: 'Incidents per State'
+                    },
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+
+            var ctx_6 = document.getElementById('yearChart');
+            var myChart = new Chart(ctx_6, {
+                type: 'bar',
+                data: {
+                    labels: [{% for item in Statistics.year %}
+                                "{{item[0]}}",
+                            {% endfor %}],
+                    datasets: [{
+                        label: '# of Incidents',
+                        data: [{% for item in Statistics.year %}
+                                "{{item[1]}}",
+                            {% endfor %}],
+                        borderColor: repeatedArray,
+                        backgroundColor: repeatedArray,
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    title: {
+                        display: true,
+                        fontSize: 15,
+                        text: 'Incidents per Year'
+                    },
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+
+            var ctx_7 = document.getElementById('popDescChart');
+            var myChart = new Chart(ctx_7, {
+                type: 'bar',
+                data: {
+                    labels: [{% for item in Statistics.popDesc %}
+                                "{{item[0]}}",
+                            {% endfor %}],
+                    datasets: [{
+                        label: '# of Incidents',
+                        data: [{% for item in Statistics.popDesc %}
+                                "{{item[1]}}",
+                            {% endfor %}],
+                        borderColor: repeatedArray,
+                        backgroundColor: repeatedArray,
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    title: {
+                        display: true,
+                        fontSize: 15,
+                        text: 'Incidents per Population Description'
+                    },
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+
+            var ctx_8 = document.getElementById('agencyTypeChart');
+            var myChart = new Chart(ctx_8, {
+                type: 'bar',
+                data: {
+                    labels: [{% for item in Statistics.agencyType %}
+                                "{{item[0]}}",
+                            {% endfor %}],
+                    datasets: [{
+                        label: '# of Incidents',
+                        data: [{% for item in Statistics.agencyType %}
+                                "{{item[1]}}",
+                            {% endfor %}],
+                        borderColor: repeatedArray,
+                        backgroundColor: repeatedArray,
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    title: {
+                        display: true,
+                        fontSize: 15,
+                        text: 'Incidents per Agency Type'
+                    },
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
         });
     </script>
-</div>
+</head>
 
+<!-- OffenseNames Chart -->
+<body>
+    <div style="width:1000px;height:800px">
+        <canvas id="offenseNameChart" width="1000" height="800"></canvas>
+    </div>
+<!-- OffenderRace Chart -->
+    <div style="height:90px">
+        <canvas id="offenderRaceChart" width="1000" height="800"></canvas>
+    </div>
+    <div style="height:90px">
+        <canvas id="totalVictimsChart" width="1000" height="800"></canvas>
+    </div>
+    <div style="height:90px">
+        <canvas id="regionsChart" width="1000" height="800"></canvas>
+    </div>
+    <div style="height:90px">
+        <canvas id="stateChart" width="1000" height="800"></canvas>
+    </div>
+    <div style="height:90px">
+        <canvas id="yearChart" width="1000" height="800"></canvas>
+    </div>
+    <div style="height:90px">
+        <canvas id="popDescChart" width="1000" height="800"></canvas>
+    </div>
+    <div style="height:90px">
+        <canvas id="agencyTypeChart" width="1000" height="800"></canvas>
+    </div>
+
+</body>
+</html>
 {% endblock %}
