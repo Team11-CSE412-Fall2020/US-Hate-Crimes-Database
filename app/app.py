@@ -1,10 +1,18 @@
 
-from flask import Flask, render_template, url_for, request
+from flask import Flask, render_template, url_for, request, Response
 from flask_sqlalchemy import SQLAlchemy
 from queries import runQuery
+from queries import runQuery2
 import os
+import io
+from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+from matplotlib.figure import Figure
+import matplotlib.pyplot as plt
+import random
 import psycopg2
-
+from itertools import groupby
+import json
+import ast
 
 app = Flask(__name__)
 # app.config['SQLALCHEMY_DATABASE_URI'] = ''
@@ -99,12 +107,9 @@ def stats():
     if request.method == "POST":
         Props['displayType'] = "stats"
 
-        return render_template("index.html", Props = Props)
+        return render_template("index.html", Props = Props, Statistics = Statistics)
 
-    return render_template("index.html", Props = Props)
-
-
-
+    return render_template("index.html", Props = Props, Statistics = Statistics)
 
 # Weird hack to get hot reloading working with browser-caching, can mostly ignore
 @app.context_processor
@@ -122,7 +127,47 @@ def dated_url_for(endpoint, **values):
 
 
 if __name__ == "__main__":
-    # conn = psycopg2.connect(dbname="412db", user="postgres", password="barrow22")
+    
+    # Temp = {
+    #     'allRows': ((), ()),
+    #     'rows' : ((), ()),
+    #     'columns' : ("", ""),
+    #     'conn' : conn
+    # }
+
+    # tempColumn = 'offense.offensename, COUNT(*)'
+    # tempCondition = 'GROUP BY offense.offensename'
+    # Temp['columns'], Temp['allRows'] = runQuery2(tempColumn, tempCondition, Temp['conn'])
+    # Temp['rows'] = Temp['allRows'][0:100]
+    # with open('app/static/temp.json', 'a') as f:
+    #     f.write('\n')
+    #     f.write(json.dumps(Temp['rows']))
+
+    # statsList = []
+    # with open('app/static/temp.json', 'r') as f:
+    #     print(type(json.load(f)))
+    # Statistics = {
+    #     'offenseNames' : statsList
+    # }
+
+    statsList = []
+    with open('app/static/statistics.json', 'r') as f:
+        listList = f.readlines()
+        for tempList in listList:
+            newItem = json.loads(tempList)
+            statsList.append(newItem)
+
+    Statistics = {
+        'offenseNames' : statsList[0],
+        'offenderRace' : statsList[1],
+        'victimCount' : statsList[2],
+        'region' : statsList[3],
+        'stateName' : statsList[4],
+        'year' : statsList[5],
+        'popDesc' : statsList[6],
+        'agencyType' : statsList[7]
+    }
+
     # Main data structure to pass around values between page reloads
     Props = {
 
@@ -139,10 +184,10 @@ if __name__ == "__main__":
         'displayType' : "table",
         'conn' : None,
     }
-
     
+
     # TODO: RUN SQL FIRST QUEREY HERE
     # Props['rows'] = SQLQUERY
     app.run(debug=True)
     Props['conn'].close()
-    #conn.close()
+    # conn.close()
