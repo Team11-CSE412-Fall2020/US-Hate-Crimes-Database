@@ -27,6 +27,10 @@ th, td {
     padding-right: 43.2px;
 }
 
+button,input:focus {
+    outline: none;
+}
+
 .center-horizontal {
     margin-right: auto;
     margin-left: auto;

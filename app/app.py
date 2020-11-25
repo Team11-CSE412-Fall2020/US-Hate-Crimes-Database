@@ -23,7 +23,24 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template('index.html', Props = Props)
+    return render_template('login.html', Props = Props)
+
+@app.route('/home', methods=["GET", "POST"])
+def home():
+    if request.method == "POST":
+        
+        db_name = request.form['db-form']
+        username = request.form['username-form']
+        password = request.form['password-form']
+        port = request.form['port-form']
+
+        conn = psycopg2.connect(dbname=db_name, user=username, password=password, port=port)
+
+        Props['conn'] = conn
+        print(conn)
+        Props['rowCount'] = len(Props['rows'])
+
+        return render_template("index.html", Props=Props)
 
 
 @app.route('/filter', methods=["GET", "POST"])
@@ -33,7 +50,6 @@ def filter():
 
         columns = request.form['columns']
         conditions = request.form['conditions']
-        
         Props['columns'], Props['allRows'] = runQuery(columns, conditions, Props['conn'])
         Props['rowCount'] = len(Props['allRows'])
 
@@ -167,14 +183,12 @@ if __name__ == "__main__":
         'pageNum' : 0,
 
         'displayType' : "table",
-        'conn' : conn,
+        'conn' : None,
     }
     
 
     # TODO: RUN SQL FIRST QUEREY HERE
     # Props['rows'] = SQLQUERY
-
-    Props['rowCount'] = len(Props['rows'])
-
     app.run(debug=True)
-    conn.close()
+    Props['conn'].close()
+    #conn.close()
