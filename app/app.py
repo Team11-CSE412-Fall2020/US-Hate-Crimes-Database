@@ -38,7 +38,6 @@ def home():
             return render_template('login.html', Props=Props)
 
         Props['conn'] = conn
-        print(conn)
         Props['rowCount'] = len(Props['rows'])
 
         return render_template("index.html", Props=Props, Statistics = Statistics)
