@@ -27,25 +27,29 @@ def remove_duplicates(colnames, qOutput):
 
     return (cNamesNoDup, outputNoDup)
 
-def runQuery(str1, str2, conn):
-    cur = conn.cursor()
 
+def runQuery(str1, str2, conn):
+    
     if str1 == "":
         str1 = "*"
 
     if not str2 == "":
         str2 = "AND {}".format(str2)
 
-    cur.execute(basicquery.format(str1, str2))
+    cur = conn.cursor()
 
-    colnames = [desc[0] for desc in cur.description]
-    output = cur.fetchall()
+    try:
+        cur.execute(basicquery.format(str1, str2))
+        colnames = [desc[0] for desc in cur.description]
+        output = cur.fetchall()
+        cn, out = remove_duplicates(colnames, output)
+        cur.close()
 
-    cn, out = remove_duplicates(colnames, output)
+        return (cn, out)
+    except:
+        conn.rollback()
+        return ( (), ())
 
-    cur.close()
-
-    return (cn, out)
 
 def runQuery2(str1, str2, conn):
     cur = conn.cursor()

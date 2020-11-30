@@ -30,7 +30,12 @@ def home():
         password = request.form['password-form']
         port = request.form['port-form']
 
-        conn = psycopg2.connect(dbname=db_name, user=username, password=password, port=port)
+        try:
+            conn = psycopg2.connect(dbname=db_name, user=username, password=password, port=port)
+            Props['loginFailed'] = False
+        except:
+            Props['loginFailed'] = True
+            return render_template('login.html', Props=Props)
 
         Props['conn'] = conn
         print(conn)
@@ -42,11 +47,19 @@ def home():
 @app.route('/filter', methods=["GET", "POST"])
 def filter():
     if request.method == "POST":
-
-
+        
+        Props['displayType'] = "table"
         columns = request.form['columns']
         conditions = request.form['conditions']
         Props['columns'], Props['allRows'] = runQuery(columns, conditions, Props['conn'])
+
+        if Props['columns'] == () or Props['allRows'] == ():
+            print("Invalid transaction")
+            Props['displayType'] = 'error'
+            Props['rowCount'] = 0
+            return render_template("index.html", Props = Props) 
+
+
         Props['rowCount'] = len(Props['allRows'])
 
         Props['rows'] = Props['allRows'][0:100]
@@ -179,6 +192,7 @@ if __name__ == "__main__":
 
         'displayType' : "table",
         'conn' : None,
+        'loginFailed' : False,
     }
     
 

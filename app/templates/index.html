@@ -36,13 +36,16 @@
 
             {% include 'includes/column-modal.html' %}
 
-            <form method="POST" action="/filter">
-                <div class="filter-controls">
-                    <input type="text" name="columns" class="filter-field" placeholder="Columns">
-                    <input type="text" name="conditions" class="filter-field" placeholder="Conditions">
-                    <button class="control-button" class="filter-label">Filter</button>
-                </div>
-            </form>
+            {% if Props.displayType == "table" or Props.displayType == "error"%}
+                <form method="POST" action="/filter">
+                    <div class="filter-controls">
+                        <input type="text" name="columns" class="filter-field" placeholder="Columns">
+                        <input type="text" name="conditions" class="filter-field" placeholder="Conditions">
+                        <button class="control-button" class="filter-label">Filter</button>
+                    </div>
+                </form>
+            {% endif %}
+            
 
             <div class="view-controls">
                 <label style="margin-top: auto; margin-bottom: auto; margin-left: 10px; font-weight: bold;">Views: </label>
@@ -66,6 +69,9 @@
                 
             {% elif Props.displayType == "stats"%}
                 {% include 'includes/stats.html' %}
+
+            {% elif Props.displayType == "error"%}
+                <h2>ERROR: Invalid Transaction</h2>
             {% endif %}
         </div>
     </div>

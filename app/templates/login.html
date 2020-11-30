@@ -31,6 +31,13 @@
             View the source database <a href="https://crime-data-explorer.fr.cloud.gov/downloads-and-docs">here</a>.
         </p>
     </div>
+    <div style="width: 100%; margin-bottom: 10px">
+        {% if Props.loginFailed %}
+            <div style="width: 100%; background-color: rgb(255, 71, 71); padding: 5px;">
+                <h1 style="color: white; text-align:center">Invalid Credentials</h1>
+            </div>
+        {% endif %}
+    </div>
 
     <div class="center-vertical center-horizontal border-theme" style="width: 50%; padding: 30px; box-shadow: rgb(162, 177, 198) 0px 5px 8px -6px;">
         <h1 style="margin-bottom: 20px; text-align: center;">Login</h1>
