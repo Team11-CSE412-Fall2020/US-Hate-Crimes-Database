@@ -31,6 +31,30 @@ button,input:focus {
     outline: none;
 }
 
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  height: 100px;
+  width: 100px;
+  outline: black;
+  background-size: 100%, 100%;
+  border-radius: 50%;
+  border: 1px solid black;
+  background-image: none;
+}
+
+.carousel-control-next-icon:after
+{
+  content: '>';
+  font-size: 55px;
+  color: red;
+}
+
+.carousel-control-prev-icon:after {
+  content: '<';
+  font-size: 55px;
+  color: red;
+}
+
 .center-horizontal {
     margin-right: auto;
     margin-left: auto;
@@ -225,4 +249,9 @@ button,input:focus {
     border-radius: 20px;
     border-style: solid;
     background-color:  rgb(222, 226, 237);
+}
+
+.stats-graph {
+    width:1000px;
+    height:800px
 }

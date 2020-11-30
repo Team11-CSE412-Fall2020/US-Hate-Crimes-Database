@@ -36,7 +36,7 @@ def home():
         print(conn)
         Props['rowCount'] = len(Props['rows'])
 
-        return render_template("index.html", Props=Props)
+        return render_template("index.html", Props=Props, Statistics = Statistics)
 
 
 @app.route('/filter', methods=["GET", "POST"])

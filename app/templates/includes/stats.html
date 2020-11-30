@@ -3,8 +3,7 @@
 <html>
 <head>
     <script>
-        $(function () {
-            const repeatedArray = [].concat(...Array(20).fill([
+        const repeatedArray = [].concat(...Array(20).fill([
                             'rgba(255, 99, 132, 0.2)',
                             'rgba(54, 162, 235, 0.2)',
                             'rgba(255, 206, 86, 0.2)',
@@ -13,8 +12,32 @@
                             'rgba(255, 159, 64, 0.2)',
                             'rgba(255, 99, 132, 0.2)',
                         ],));
+
+        var chartArray = [];
+        let index = 0
+        let myChart;
+        
+        $('html').on("click", ".back", function () {
+            index = ((index - 1) + 8) % 8;
+            console.log(index)
+
+            myChart.destroy();
+            let mainCanvas = document.getElementById("main-canvas");
+            myChart = new Chart(document.getElementById("main-canvas"), chartArray[index]);
+        }); 
+        $('html').on("click", ".next", function () {
+            index = (index + 1) % 8;
+            console.log(index)
+
+            myChart.destroy();
+            let mainCanvas = document.getElementById("main-canvas");
+            myChart = new Chart(document.getElementById("main-canvas"), chartArray[index]);
+        }); 
+
+        $('document').ready((function () {
+            
             var ctx = document.getElementById('offenseNameChart');
-            var myChart = new Chart(ctx, {
+            chartArray[0] = {
                 type: 'bar',
                 data: {
                     labels: [{% for item in Statistics.offenseNames %}
@@ -44,10 +67,10 @@
                         }]
                     }
                 }
-            });
+            }
         
             var ctx_2 = document.getElementById('offenderRaceChart');
-            var myChart = new Chart(ctx_2, {
+            chartArray[1] = {
                 type: 'bar',
                 data: {
                     labels: [{% for item in Statistics.offenderRace %}
@@ -77,10 +100,10 @@
                         }]
                     }
                 }
-            });
+            }
 
             var ctx_3 = document.getElementById('totalVictimsChart');
-            var myChart = new Chart(ctx_3, {
+            chartArray[2] = {
                 type: 'bar',
                 data: {
                     labels: [{% for item in Statistics.victimCount %}
@@ -110,10 +133,10 @@
                         }]
                     }
                 }
-            });
+            };
 
             var ctx_4 = document.getElementById('regionsChart');
-            var myChart = new Chart(ctx_4, {
+            chartArray[3] = {
                 type: 'bar',
                 data: {
                     labels: [{% for item in Statistics.region %}
@@ -143,10 +166,10 @@
                         }]
                     }
                 }
-            });
+            };
 
             var ctx_5 = document.getElementById('stateChart');
-            var myChart = new Chart(ctx_5, {
+            chartArray[4] = {
                 type: 'bar',
                 data: {
                     labels: [{% for item in Statistics.stateName %}
@@ -176,10 +199,10 @@
                         }]
                     }
                 }
-            });
+            };
 
             var ctx_6 = document.getElementById('yearChart');
-            var myChart = new Chart(ctx_6, {
+            chartArray[5] = {
                 type: 'bar',
                 data: {
                     labels: [{% for item in Statistics.year %}
@@ -209,10 +232,10 @@
                         }]
                     }
                 }
-            });
+            };
 
             var ctx_7 = document.getElementById('popDescChart');
-            var myChart = new Chart(ctx_7, {
+            chartArray[6] = {
                 type: 'bar',
                 data: {
                     labels: [{% for item in Statistics.popDesc %}
@@ -242,10 +265,10 @@
                         }]
                     }
                 }
-            });
+            }
 
             var ctx_8 = document.getElementById('agencyTypeChart');
-            var myChart = new Chart(ctx_8, {
+            chartArray[7] = {
                 type: 'bar',
                 data: {
                     labels: [{% for item in Statistics.agencyType %}
@@ -275,37 +298,37 @@
                         }]
                     }
                 }
-            });
-        });
+            };
+            let mainCanvas = document.getElementById('main-canvas');
+            myChart = new Chart(document.getElementById("main-canvas"), chartArray[index])
+        }));
+
+        
+    
     </script>
 </head>
 
 <!-- OffenseNames Chart -->
 <body>
-    <div style="width:1000px;height:800px">
-        <canvas id="offenseNameChart" width="1000" height="800"></canvas>
+    <div style="position:sticky; display:flex; flex-direction: row; margin-top:auto; margin-bottom:auto;">
+        <h1 style="margin-right:15px">Notable Statistics</h1>
+        
+        <div style="display:flex; flex-direction:row; margin-top:auto;margin-bottom: auto;padding-top:5px;">
+    
+            <button class="table-button back" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                ◀
+            </button>
+            
+            <button class="table-button next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                ▶
+            </button>
+        </div>
     </div>
-<!-- OffenderRace Chart -->
-    <div style="height:90px">
-        <canvas id="offenderRaceChart" width="1000" height="800"></canvas>
-    </div>
-    <div style="height:90px">
-        <canvas id="totalVictimsChart" width="1000" height="800"></canvas>
-    </div>
-    <div style="height:90px">
-        <canvas id="regionsChart" width="1000" height="800"></canvas>
-    </div>
-    <div style="height:90px">
-        <canvas id="stateChart" width="1000" height="800"></canvas>
-    </div>
-    <div style="height:90px">
-        <canvas id="yearChart" width="1000" height="800"></canvas>
-    </div>
-    <div style="height:90px">
-        <canvas id="popDescChart" width="1000" height="800"></canvas>
-    </div>
-    <div style="height:90px">
-        <canvas id="agencyTypeChart" width="1000" height="800"></canvas>
+
+    <div>
+        <canvas id="main-canvas" width="300" height="300">
+
+        </canvas>
     </div>
 
 </body>
